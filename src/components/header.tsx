@@ -1,41 +1,62 @@
-"use client";
+"use client"
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button} from "@heroui/react";
+import Image from "next/image";
+import { useState } from "react";
+import LoginModal from "./UI/modals/login.modal";
+import RegistrationModal from "./UI/modals/registration.modal";
 
-import Link from "next/link"
-import Image from "next/image"
+export const Logo = () => {
+  return (
+    <Image src= "/images/logotree.png" alt="Tree" width={48} height={48}
+    className = "rounded-full border-2 mr-3 border-green-600" />
+  );
+};
 
-export default function Header() {
-    return (
-        <header className="flex flex-row w-full items-center bg-orange-500">
-            <div className="basis-1/4 flex items-center justify-start px-4 my-2">
-            <Image
-              src="/images/icon.png"
-              alt="logo"
-              width="64"
-              height="64"
-              className="w-16 h-16"
-              priority
-              />
-            </div>
+export default function Header () {
 
-            <div className="basis-1/4"/>
+    const navItems= [
+        {href: "/", label:"Recipes"},
+        {href: "/ingredients", label:"Ingredients"},
+        {href: "/about", label:"About us"}
+    ]
 
-            <nav className="basis-1/2 flex flex-row items-center justify-end px-4 gap-4">
+    const [isRegistrationOpen, setIsRegistrationOpen] = useState(false)
+    const [isLoginOpen, setIsLoginOpen] = useState(false)
 
-            <Link
-            href="/"
-            className="my-auto p-2 hover:bg-pink rounded text-green hover:text-green-200">
-            Home
+      return (
+    <Navbar className= "bg-yellow-300 border-blue-500 border-b-1">
+      <NavbarBrand>
+        <Logo />
+        <p className="font-bold text-black">WiseTree</p>
+      </NavbarBrand>
+
+<NavbarContent className="hidden sm:flex gap-4" justify="center">
+    
+    {navItems.map((item) => (
+        <NavbarItem key={item.href}>
+            <Link color="foreground" href={item.href}>
+                {item.label}
             </Link>
-            <Link href="/Labs" className= "p-2 hover:bg-pink rounded text-green hover:text-green-200">
-            Labs
-            </Link>
-                        <Link href="/Login" className= "p-2 hover:bg-pink rounded text-green hover:text-green-200">
-            Login
-            </Link>
-                        <Link href="Logout" className= "p-2 hover:bg-pink rounded text-green hover:text-green-200">
-            Logout
-            </Link>
-            </nav>
-        </header>
-    )
+        </NavbarItem>
+    ))}
+</NavbarContent>
+<NavbarContent justify="end">
+<NavbarItem className="hidden lg:flex">
+  <Button as={Link} onPress={() => setIsLoginOpen(true)} className="bg-red-800 hover:bg-red-200 hover:text-red-200">
+    LogIn
+  </Button>
+</NavbarItem>
+<NavbarItem>
+  <Button as={Link} onPress={() => setIsRegistrationOpen(true)} className="bg-red-800 hover:bg-red-200 hover:text-red-200">
+    Sign Up
+  </Button>
+</NavbarItem>
+</NavbarContent>
+
+    <RegistrationModal isOpen={isRegistrationOpen} onClose={() => setIsRegistrationOpen(false)} />
+    <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+        
+    </Navbar>
+
+  );
 }

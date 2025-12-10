@@ -5,11 +5,10 @@ interface IProps {
   onClose: () => void;
 }
 
-const RegistrationForm = ({ onClose }: IProps) => {
+const LoginForm = ({ onClose }: IProps) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    confirmPassword: ""
   });
 
   const validateEmail = (email: string) => {
@@ -61,35 +60,16 @@ const RegistrationForm = ({ onClose }: IProps) => {
           return null;
         }}
       />
-
-      <Input
-        isRequired
-        name="confirmPassword"
-        placeholder="Repeat your password"
-        type="password"
-        value={formData.confirmPassword}
-        classNames={{
-          inputWrapper: "bg-default-100",
-          input: "text-sm focus:outline-none "
-        }}
-        onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-        validate={(value) => {
-          if (!value) return "Password x2 is a must have";
-          if (value !== formData.password) return "Passwords are different";
-          return null;
-        }}
-      />
-
       <div className="flex w-[100%] gap-4 items-center pt-8 justify-end">
         <Button variant="light" onPress={onClose}>
           Cancel
         </Button>
         <Button color="primary" type="submit">
-          Sign up
+          Authorize
         </Button>
       </div>
     </Form>
   );
 };
 
-export default RegistrationForm;
+export default LoginForm;
