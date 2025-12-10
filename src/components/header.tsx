@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import LoginModal from "./UI/modals/login.modal";
 import RegistrationModal from "./UI/modals/registration.modal";
+import { signOutFunc } from "@/actions/sign-out";
 
 export const Logo = () => {
   return (
@@ -13,6 +14,13 @@ export const Logo = () => {
 };
 
 export default function Header () {
+      const handleSignOut = async () => {
+        try {
+        await signOutFunc();
+      } catch (error) {
+        console.error("error",)
+      }
+      }
 
     const navItems= [
         {href: "/", label:"Recipes"},
@@ -22,9 +30,8 @@ export default function Header () {
 
     const [isRegistrationOpen, setIsRegistrationOpen] = useState(false)
     const [isLoginOpen, setIsLoginOpen] = useState(false)
-
       return (
-    <Navbar className= "bg-yellow-300 border-blue-500 border-b-1">
+    <Navbar className= "bg-yellow-300 border-blue-500 border-b-2">
       <NavbarBrand>
         <Logo />
         <p className="font-bold text-black">WiseTree</p>
@@ -42,15 +49,28 @@ export default function Header () {
 </NavbarContent>
 <NavbarContent justify="end">
 <NavbarItem className="hidden lg:flex">
-  <Button as={Link} onPress={() => setIsLoginOpen(true)} className="bg-red-800 hover:bg-red-200 hover:text-red-200">
+  <Button as={Link} onPress={() => setIsLoginOpen(true)} className="bg-red-800 hover:bg-red-500 hover:text-green-200">
     LogIn
   </Button>
 </NavbarItem>
 <NavbarItem>
-  <Button as={Link} onPress={() => setIsRegistrationOpen(true)} className="bg-red-800 hover:bg-red-200 hover:text-red-200">
+  <Button as={Link} onPress={() => setIsRegistrationOpen(true)} className="bg-red-800 hover:bg-red-500 hover:text-green-200">
     Sign Up
   </Button>
 </NavbarItem>
+
+<NavbarItem>
+  <Button 
+    as={Link}
+    href="#"
+    variant="flat"
+    onPress={handleSignOut}
+    className="bg-red-800 hover:bg-red-500 hover:text-green-200"
+  >
+    Exit
+  </Button>
+</NavbarItem>
+
 </NavbarContent>
 
     <RegistrationModal isOpen={isRegistrationOpen} onClose={() => setIsRegistrationOpen(false)} />
@@ -60,3 +80,4 @@ export default function Header () {
 
   );
 }
+

@@ -1,3 +1,4 @@
+import { registerUser } from "@/actions/register";
 import { Form, Input, Button } from "@heroui/react"
 import { useState } from "react"
 
@@ -21,7 +22,9 @@ const RegistrationForm = ({ onClose }: IProps) => {
     e.preventDefault();
     console.log("set formdata: ", formData);
     onClose();
-  };
+
+    const result= await registerUser(formData);
+  }
 
   return (
     <Form className="w-full" onSubmit={handleSubmit}>

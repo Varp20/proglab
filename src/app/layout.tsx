@@ -4,6 +4,8 @@ import "./globals.css";
 import { HeroUIProvider } from "@heroui/system";
 import { Providers } from "@/providers/provider";
 import Header from "@/components/header";
+import { SessionProvider} from "next-auth/react";
+import {auth} from "@/auth/auth"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,19 +22,22 @@ export const metadata: Metadata = {
   description: "Bugagashenki",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session= await auth();
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
+          <SessionProvider>
           <Header />
           {children}
+          </SessionProvider>
         </Providers>
       </body>
     </html>
